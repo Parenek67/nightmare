@@ -1,0 +1,81 @@
+{
+    "$schema": "https://www.krakend.io/schema/v3.json",
+    "version": 3,
+    "endpoints": [{
+            "endpoint":"/v1/auth/{login}/{password}",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "encoding": "no-op",
+                    "url_pattern": "/v1/users/{login}/{password}",
+                    "method": "GET",
+                    "host": ["http://auth"]
+                }
+            ]
+        },{
+            "endpoint":"/v1/all_users",
+            "method": "GET",
+            "backend": [
+                {
+                    "url_pattern": "/v1/users/",
+                    "method": "GET",
+                    "host": ["http://auth"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "users"
+                    }
+                }
+            ]
+        },{
+            "endpoint":"/v1/weatherForecast/{town}",
+            "method": "GET",
+            "backend": [
+                {
+                    "url_pattern": "/v1/weather/{town}",
+                    "method": "GET",
+                    "host": ["http://weather"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "days"
+                    }
+                }
+            ]
+        },{
+            "endpoint":"/v1/weatherForecast/{town}/{date}",
+            "method": "GET",
+            "output_encoding": "no-op",
+            "backend": [
+                {
+                    "encoding": "no-op",
+                    "url_pattern": "/v1/weather/{town}/{date}",
+                    "method": "GET",
+                    "host": ["http://weather"]
+                }
+            ]
+        },{
+            "endpoint":"/v1/data",
+            "method": "GET",
+            "backend": [
+                {
+                    "url_pattern": "/v1/users/",
+                    "method": "GET",
+                    "host": ["http://auth"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "users"
+                    }
+                },
+                {
+                    "url_pattern": "/v1/weather/Moscow",
+                    "method": "GET",
+                    "host": ["http://weather"],
+                    "is_collection": true,
+                    "mapping": {
+                        "collection": "days:"
+                    }
+                }
+            ]
+        }
+    ],
+    "extra_config": {}}
