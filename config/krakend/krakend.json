@@ -27,6 +27,17 @@
                     }
                 }
             ]
+        },
+        {
+            "endpoint":"/v1/add_user",
+            "method": "POST",
+            "backend": [
+                {
+                    "url_pattern": "/v1/postusers/",
+                    "method": "POST",
+                    "host": ["http://auth"]
+                }
+            ]
         },{
             "endpoint":"/v1/weatherForecast/{town}",
             "method": "GET",

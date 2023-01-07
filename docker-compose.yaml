@@ -5,6 +5,12 @@ services:
     build: ./auth_service
     ports:
       - "8000:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/__health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s  
 
   weather:
     build: ./weather_service
@@ -21,3 +27,17 @@ services:
     depends_on:
       - auth
       - weather    
+
+  db:
+    image: postgres:14.0
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: klim
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: users_db
+    ports:
+      - "5432:5432"
+ 
+volumes:
+  postgres_data:  

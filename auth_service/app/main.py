@@ -13,7 +13,7 @@ users_list = [
 
 app = FastAPI()
 
-@app.post("/v1/postusers")
+@app.post("/v1/postusers/")
 async def create(details: schemas.CreateUser, db: Session = Depends(get_db)):
     to_create = models.User(
         name = details.name,
@@ -38,3 +38,7 @@ async def auth(login:str, password:str, db: Session = Depends(get_db)):
 @app.get("/v1/users/")
 async def get_users(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
     return crud.get_users(db, skip=skip, limit=limit)
+
+@app.get("/__health")
+async def health_check():
+    return
